@@ -1,8 +1,7 @@
 import math
 import random
 
-
-class Player():
+class Player:
     def __init__(self, letter):
         self.letter = letter        #letter is X or O
 
@@ -18,7 +17,7 @@ class HumanPlayer(Player):
         valid_square = False
         val = None
         while not valid_square:
-            square = input(self.letter + '\'s turn. Input move (0-8): ')
+            square = input(self.letter + '\'s turn. Input move (1-9): ')
 
             try:                            #check if the move is valid
                 val = int(square)
@@ -63,6 +62,7 @@ class GeniusComputerPlayer(Player):
         elif not state.empty_squares():
             return {'position': None, 'score': 0}
 
+        # initialize dictionaries
         if player == max_player:
             best = {'position': None, 'score': -math.inf}  # each score should maximize
         else:
@@ -77,7 +77,7 @@ class GeniusComputerPlayer(Player):
             state.current_winner = None
             sim_score['position'] = possible_move  # this represents the move optimal next move
 
-            if player == max_player:  # X is max player
+            if player == max_player:  # maximize the max_player
                 if sim_score['score'] > best['score']:
                     best = sim_score
             else:                               #but minimize the other player

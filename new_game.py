@@ -18,8 +18,8 @@ class TicTacToe():
 
     @staticmethod
     def print_board_nums():
-        # 0 | 1 | 2
-        number_board = [[str(i) for i in range(j*3, (j+1)*3)] for j in range(3)]
+        # 1 | 2 | 3
+        number_board = [[str(i) for i in range(j*3 + 1, (j+1)*3 + 1)] for j in range(3)]
         for row in number_board:
             print('| ' + ' | '.join(row) + ' |')
 
@@ -36,14 +36,14 @@ class TicTacToe():
         # check the row
         row_ind = math.floor(square / 3)
         row = self.board[row_ind*3:(row_ind+1)*3]
-        # print('row', row)
+        
         if all([s == letter for s in row]):
             return True
 
         #check column
         col_ind = square % 3
         column = [self.board[col_ind+i*3] for i in range(3)]
-        # print('col', column)
+        
         if all([s == letter for s in column]):
             return True
 
@@ -96,7 +96,7 @@ def play(game, x_player, o_player, print_game=True):    #returns the winner of t
                 return letter        # ends the loop and exits the game
             letter = 'O' if letter == 'X' else 'X'  # switches player
 
-        time.sleep(.8)
+        # time.sleep(.8)
 
     if print_game:
         print('It\'s a tie!')
@@ -104,7 +104,20 @@ def play(game, x_player, o_player, print_game=True):    #returns the winner of t
 
 
 if __name__ == '__main__':
-    x_player = HumanPlayer('X')
-    o_player = GeniusComputerPlayer('O')
-    t = TicTacToe()
-    play(t, x_player, o_player, print_game=True)
+    x_wins = 0
+    o_wins = 0
+    ties = 0
+    for i in range(100):
+        x_player = RandomComputerPlayer('X')
+        o_player = GeniusComputerPlayer('O')
+        t = TicTacToe()
+        result = play(t, x_player, o_player, print_game=False)
+
+        if result == 'X':
+            x_wins += 1
+        elif result == 'O':
+            o_wins += 1
+        else:
+            ties += 1
+
+    print(f'After 100 iterations, we see {x_wins} X wins, {o_wins} O wins and {ties} ties')
